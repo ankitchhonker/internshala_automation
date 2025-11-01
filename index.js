@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express, { json } from "express";
 import cors from "cors";
 import { GoogleGenAI } from "@google/genai";
+import { executablePath } from "puppeteer";
 
 const ai = new GoogleGenAI({});
 
@@ -162,13 +163,15 @@ async function applyToInternship(page, link) {
 
 async function main() {
   const browser = await puppeteer.launch({
-    headless: true,
-    executablePath:
-    "/opt/render/.cache/puppeteer/chrome/linux-141.0.7390.78/chrome-linux64/chrome",
-  args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    defaultViewport: null,
-    args: ["--start-maximized"],
-  });
+  headless: true,
+  executablePath:  await executablePath(),
+  args: [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-gpu",
+  ],
+});
   const page = await browser.newPage();
 
   await login(page);
