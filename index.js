@@ -162,7 +162,10 @@ async function applyToInternship(page, link) {
 
 async function main() {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
+    executablePath:
+    "/opt/render/.cache/puppeteer/chrome/linux-141.0.7390.78/chrome-linux64/chrome",
+  args: ["--no-sandbox", "--disable-setuid-sandbox"],
     defaultViewport: null,
     args: ["--start-maximized"],
   });
